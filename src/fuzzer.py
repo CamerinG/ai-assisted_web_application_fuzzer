@@ -22,9 +22,26 @@ with open("payloads/sqli_payloads.txt", "r", encoding="utf-8", errors="ignore") 
 with open("payloads/xss_payloads.txt", "r", encoding="utf-8", errors="ignore") as f:
     XSS_PAYLOADS = [line.strip() for line in f.readlines() if line.strip()]
 
+# A set of benign payloads for control testing. common inputs, and typical search terms
 BENIGN_PAYLOADS = [
-    "hello", "world", "test123", "john", "jane",
-    "search", "query", "input", "data", "value"
+    # Common names
+    "john", "jane", "bob", "alice", "admin",
+    # Common words
+    "hello", "world", "test", "search", "query",
+    # Numbers
+    "1", "2", "3", "42", "100",
+    # Email-like
+    "user@email.com", "test@test.com",
+    # Normal search terms
+    "laptop", "phone", "shoes", "book", "music",
+    # Common inputs
+    "password", "username", "login", "home", "help",
+    # Dates
+    "2024", "01/01/2023", "january",
+    # URLs (benign)
+    "www.google.com", "http://example.com",
+    # Misc
+    "hello world", "foo", "bar", "input", "data"
 ]
 
 def get_session():

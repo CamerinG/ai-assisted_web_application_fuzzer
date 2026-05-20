@@ -1,5 +1,5 @@
 venv/
-data/
+data/fuzzing_results.csv
 __pycache__/
 *.pkl
 *.pyc
