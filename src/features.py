@@ -13,7 +13,7 @@ df_cleaned['has_double_dash'] = df_cleaned['payload'].str.contains("--").astype(
 df_cleaned['has_equals'] = df_cleaned['payload'].str.contains("=").astype(int)
 df_cleaned['special_char_count'] = df_cleaned['payload'].str.count(r'[^a-zA-Z0-9\s]')
 
-# Encode payload types (sqli/xss/benign -> 0/1/2)
+# Encode payload types (benign/sqli/xss -> 0/1/2) (alphabetical order)
 le = LabelEncoder()
 df_cleaned['payload_type_encoded'] = le.fit_transform(df_cleaned['payload_type'])
 
