@@ -15,20 +15,12 @@ CREDENTIALS = {
     "Login": "Login"
 }
 
-# Sample payloads
-SQLI_PAYLOADS = [
-    "1", "1'", "1' OR '1'='1", "1' OR 1=1--",
-    "' OR 1=1--", "admin'--", "1; DROP TABLE users--",
-    "1' UNION SELECT null--", "' OR 'x'='x",
-    "1' AND 1=2--"
-]
+with open("payloads/sqli_payloads.txt", "r", encoding="utf-8", errors="ignore") as f:
+    SQLI_PAYLOADS = [line.strip() for line in f.readlines() if line.strip()]
 
-XSS_PAYLOADS = [
-    "hello", "<script>alert(1)</script>", "<b>test</b>",
-    "<img src=x onerror=alert(1)>", "'\"><script>alert(1)</script>",
-    "<svg onload=alert(1)>", "javascript:alert(1)",
-    "<body onload=alert(1)>", "test", "1234"
-]
+
+with open("payloads/xss_payloads.txt", "r", encoding="utf-8", errors="ignore") as f:
+    XSS_PAYLOADS = [line.strip() for line in f.readlines() if line.strip()]
 
 BENIGN_PAYLOADS = [
     "hello", "world", "test123", "john", "jane",
