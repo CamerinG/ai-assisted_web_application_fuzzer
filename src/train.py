@@ -1,4 +1,4 @@
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 import joblib
@@ -35,9 +35,14 @@ feature_importance = pd.Series(
 ).sort_values(ascending=False)
 print(f"\nFeature Importances:{feature_importance}" )
 
-# classification report
+# classification report and model evaluation
 y_pred = model.predict(X_test)
 print(f"\nClassification Report:{classification_report(y_test, y_pred)}")
 
 joblib.dump(model, "models/random_forest_model.pkl")
 print("Model saved to models/random_forest_model.pkl")
+
+# cross validation
+cross_val_scores = cross_val_score(model, feature_x, target_y, cv=5)
+print(f"\nCross-validation scores: {cross_val_scores}")
+print(f"Average cross-validation score: {cross_val_scores.mean():.2f}")
