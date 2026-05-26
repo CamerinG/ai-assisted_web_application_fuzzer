@@ -30,13 +30,12 @@ def predict_vulnerability(payload):
 
 
 if __name__ == "__main__":
-    test_payloads = [
-        "SELECT * FROM users WHERE username='admin'--",
-        "<script>alert('XSS')</script>",
-        "normalpayload123",
-        "DROP TABLE users;--",
-        "Hello World!"
-    ]
-    for payload in test_payloads:
+    with open("payloads/sqli_payloads.txt", "r", encoding="utf-8", errors="ignore") as f:
+        sqli_payloads = [line.strip() for line in f if line.strip()][:10]
+    
+    with open("payloads/xss_payloads.txt", "r", encoding="utf-8", errors="ignore") as f:
+        xss_payloads = [line.strip() for line in f if line.strip()][:10]
+
+    for payload in sqli_payloads + xss_payloads:
         pred, prob = predict_vulnerability(payload)
-        print(f"Payload: {payload[:30]:<30} | Predicted: {pred} | Confidence: {prob:.2f}")
+        print(f"Payload: {payload[:35]:<35} | Predicted: {pred} | Confidence: {prob:.2f}")
