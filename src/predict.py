@@ -30,6 +30,8 @@ def predict_vulnerability(payload):
 
 
 if __name__ == "__main__":
+
+    # Load some sample payloads for testing the prediction of the model. In a real scenario, you would want to test with a wider variety of payloads.
     with open("payloads/sqli_payloads.txt", "r", encoding="utf-8", errors="ignore") as f:
         sqli_payloads = [line.strip() for line in f if line.strip()][:10]
     

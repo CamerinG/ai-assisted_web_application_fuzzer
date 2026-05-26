@@ -150,7 +150,7 @@ def fuzz_xss(session, payloads, label_override=None):
     return results
 
 def calculate_safety_score(results):
-    """Calculate a safety score based on the results."""
+    """Calculate a safety score for the website based on the results."""
     total = len(results)
     if total == 0:
         return 100.0

@@ -1,5 +1,18 @@
 # AI-Assisted Web Application Fuzzer
 
+## Application Guide (how to run)
+predict.py:
+This is the file that runs payloads through the model and outputs what the model predicts the outcome of the payload to be (triggered (1) or not (0)) as well as a 'confidence' score of how confident the model was about the outcome. 
+
+train.py:
+This file is where the model is trained, and it has outputs such as feature importance and f1 scores to see how well the model is performing.
+
+fuzzer.py:
+This file is the actual fuzzer that is run against the web application (in this case, the Damn Vulnerable Web Application (DVWA)). It fires payloads from curated wordlists at SQLi and XSS endpoints, logs the HTTP responses, and labels each result based on whether a vulnerability was triggered. The outputs include a CSV file containing the labeled request/response dataset used for model training, as well as a safety score representing the percentage of payloads that did not trigger a vulnerability.
+
+features.py:
+This processes the fuzzing results (fuzzing_results.csv). 
+
 ## Overview
 This project is an AI-assisted Web application fuzzer, fuzzing is 'a software testing technique aimed at identifying bugs, vulnerabilities, or unexpected behavior by automatically providing a program with unexpected, malformed, or semi-malformed inputs'(https://owasp.org/www-community/Fuzzing). Artificial intelligence can be used to predict payloads that have a higher probability of triggering a vulnerability in a web application. This is useful because many businesses have client facing web apps, and it's the job of a security team to ensure that bad actors can't expose company vulnerabilities and if they have a tool to help them, then they can more efficiently secure the site. 
 
@@ -8,8 +21,29 @@ This project is an AI-assisted Web application fuzzer, fuzzing is 'a software te
 This project was built to explore the intersection of machine learning and offensive security tooling, specifically how ML can improve the efficiency of web application penetration testing. It was developed as part of WGU D683 Advanced AI/ML coursework.
 
 ## Tech Stack
-DVWA (Damn Vulnerable Web Application)
+- DVWA (Damn Vulnerable Web Application)
+- Python 3.11
+- scikit-learn
+- pandas, numpy
+- BeautifulSoup4
+- requests
+- joblib
+- DVWA
+- Kali Linux (VirtualBox VM)
+- VS Code
 
+## Software/Hardware Requirements 
+Software:
+- Python 3.11
+- VS Code
+- All dependencies in requirements.txt
+
+Hardware:
+- Windows 11
+- 12th Gen Intel Core i9-12900KF
+- 64GB RAM
+
+****Note: The trained model (models/random_forest_model.pkl) is included in the repository. Running predict.py does not require DVWA or a virtual machine.****
 
 ## Architecture
 
@@ -32,3 +66,4 @@ The dataset used is SecLists (Daniel Miessler, Github, https://github.com/daniel
 after training the random forest classifier the model accuracy score was 1.0 on the first try, this was a very suspicious accuracy score. I removed some features that I had originally put in, such as response_length, and response code. I then got an accuracy score of 0.99, still extremely high, but this is to be expected because the environment being tested on (DVWA) is controlled and I have the security set to low (because this is a proof of concept project for testing), in real world testing web applications would have more noise and the model would get lower scores. The final model achieved an F1 score of 0.98, precision of 0.98, and recall of 0.99 on the held-out test set, exceeding the target F1 score of 0.85 defined in the project proposal.
 
 ## Future Work
+A planned extension is a payload mutation and feedback loop — using high-confidence predictions to seed new payload variants, iteratively refining a target-specific payload list with increasing vulnerability probability. This would move the system from passive classification toward active adaptive fuzzing. This would allow a security team to find more vulnerabilities at the endpoints and protect them, and then the team could rinse-and-repeat. 
