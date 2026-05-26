@@ -149,6 +149,15 @@ def fuzz_xss(session, payloads, label_override=None):
             print(f"[!] Error with payload {payload}: {e}")
     return results
 
+def calculate_safety_score(results):
+    """Calculate a safety score based on the results."""
+    total = len(results)
+    if total == 0:
+        return 100.0
+    triggered = sum(1 for r in results if r["triggered"])
+    score = (1 - triggered / total) * 100
+    return score
+
 def run_fuzzer():
     session = get_session()
     all_results = []
@@ -166,6 +175,9 @@ def run_fuzzer():
     df.to_csv("data/fuzzing_results.csv", index=False)
     print(f"\n[+] Done. {len(df)} results saved to data/fuzzing_results.csv")
     print(df["triggered"].value_counts())
+
+    calculate_safety_score(all_results)
+    print(f"[*] Safety Score: {calculate_safety_score(all_results):.2f}%")
 
 if __name__ == "__main__":
     run_fuzzer()

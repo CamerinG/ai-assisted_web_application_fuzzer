@@ -28,6 +28,7 @@ def predict_vulnerability(payload):
     
     return prediction[0], probability
 
+
 if __name__ == "__main__":
     test_payloads = [
         "SELECT * FROM users WHERE username='admin'--",
