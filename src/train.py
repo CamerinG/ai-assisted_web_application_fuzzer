@@ -1,4 +1,4 @@
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 import joblib
@@ -33,11 +33,30 @@ print(f"Model Accuracy: {accuracy:.2f}")
 feature_importance = pd.Series(
     model.feature_importances_, index=feature_x.columns
 ).sort_values(ascending=False)
-print(f"\nFeature Importances:{feature_importance}" )
+print(f"\nFeature Importances:\n{feature_importance}" )
 
-# classification report
+# classification report and model evaluation
 y_pred = model.predict(X_test)
-print(f"\nClassification Report:{classification_report(y_test, y_pred)}")
+print(f"\nClassification Report:\n{classification_report(y_test, y_pred)}")
 
 joblib.dump(model, "models/random_forest_model.pkl")
 print("Model saved to models/random_forest_model.pkl")
+
+# cross validation
+cross_val_scores = cross_val_score(model, feature_x, target_y, cv=5)
+print(f"\nCross-validation scores: {cross_val_scores}")
+print(f"Average cross-validation score: {cross_val_scores.mean():.2f}")
+
+# hyperparameter tuning with GridSearchCV
+param_grid = {
+    'n_estimators': [100, 200, 300],
+    'max_depth': [None, 10, 20],
+    'min_samples_split': [2, 5, 10]
+}
+grid = GridSearchCV(estimator=model, param_grid=param_grid, cv=5)
+grid.fit(feature_x, target_y)
+print(f"\nBest hyperparameters: {grid.best_params_}")
+
+best_model = grid.best_estimator_
+joblib.dump(best_model, "models/random_forest_model.pkl")
+print("Optimized model saved")
