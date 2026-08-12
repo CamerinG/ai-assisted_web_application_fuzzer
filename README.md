@@ -89,6 +89,3 @@ The dataset used is SecLists (Daniel Miessler, Github, https://github.com/daniel
 
 ## Results
 After training the random forest classifier the model accuracy score was 1.0 on the first try, this was a very suspicious accuracy score. I removed some features that I had originally put in, such as response_length, and response code. I then got an accuracy score of 0.99, still extremely high, but this is to be expected because the environment being tested on (DVWA) is controlled and I have the security set to low (because this is a proof of concept project for testing), in real world testing web applications would have more noise and the model would get lower scores. The final model achieved an F1 score of 0.98, precision of 0.98, and recall of 0.99 on the held-out test set, exceeding the target F1 score of 0.85 defined in the project proposal.
-
-## Future Work
-A planned extension is a payload mutation and feedback loop — using high-confidence predictions to seed new payload variants, iteratively refining a target-specific payload list with increasing vulnerability probability. This would move the system from passive classification toward active adaptive fuzzing. This would allow a security team to find more vulnerabilities at the endpoints and protect them, and then the team could rinse-and-repeat. 
