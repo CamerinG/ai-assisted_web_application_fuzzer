@@ -34,15 +34,15 @@ This processes the fuzzing results (fuzzing_results.csv).
 This project is an AI-assisted Web application fuzzer, fuzzing is 'a software testing technique aimed at identifying bugs, vulnerabilities, or unexpected behavior by automatically providing a program with unexpected, malformed, or semi-malformed inputs'(https://owasp.org/www-community/Fuzzing). Artificial intelligence can be used to predict payloads that have a higher probability of triggering a vulnerability in a web application. This is useful because many businesses have client facing web apps, and it's the job of a security team to ensure that bad actors can't expose company vulnerabilities and if they have a tool to help them, then they can more efficiently secure the site. 
 
 ## ML Model 
-Method: Random Forest supervised binary classification
-This method handles tabular data well, and works great for small to medium sized datasets. The payloads will be scored by predicted vulnerability probability.The model will predict if the payload is likely to trigger a vulnerability (1) or not (0). Feature importance will give insight to understand why the model is making its predictions and what features it's using the most to make those predictions.
+Random Forest supervised binary classification
+This method handles tabular data well, and works great for small to medium sized datasets. The payloads are scored by predicted vulnerability probability.The model will predict if the payload is likely to trigger a vulnerability (1) or not (0). Feature importance will give insight to understand why the model is making its predictions and what features it's using the most to make those predictions.
 Advantages:
-Handles tabular, mixed-type datasets well
+Handles tabular and mixed-type datasets well
 Many decision trees help reduce overfitting
 Provides feature importance rankings which will help identify which payload characteristics influence predictions the most
 Disadvantages:
-Can be computation resource intense due to large number of trees
-Less effective if the datasets are imbalance, so more attention and time will need to be spent on the datasets
+Can be computational resource intensive due to a large number of trees
+Less effective if the datasets are imbalanced, so more attention and time will need to be spent on the datasets
 
 
 ## Motivation
